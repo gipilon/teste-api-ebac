@@ -26,7 +26,7 @@ describe('Testes da Funcionalidade Usuários', () => {
             url: 'usuarios',
             body: {
                 "nome": usuario,
-                "email": `gigipilon@qa.com.br`,
+                "email": `gigipilonnasc@qa.com.br`,
                 "password": "teste",
                 "administrador": "true"
             }
@@ -43,7 +43,7 @@ describe('Testes da Funcionalidade Usuários', () => {
             url: 'usuarios',
             body: {
                 "nome": usuario,
-                "email": `funo@qa.com.br`,
+                "email": `funoea@qa.com.br`,
                 "password": "teste",
                 "administrador": "true"
             }, failOnStatusCode: false
@@ -73,25 +73,17 @@ describe('Testes da Funcionalidade Usuários', () => {
         }) 
   });
 
-  it('Deve deletar um usuário previamente cadastrado', () => {
-    let usuario = `Usuario EBAC ${Math.floor(Math.random() * 100000000)}`
-    cy.request({
-      method: 'POST',
-      url: 'usuarios',
-      body: {
-        "nome": usuario,
-        "email": `del${Math.floor(Math.random() * 100000)}@qa.com.br`,
-        "password": "teste",
-        "administrador": "true"
-      }
-    }).then(response => {
-      let id = response.body._id
+  it('Deve cadastrar e deletar um usuário com sucesso', () => {
+    cy.cadastrarUsuario('Usuário Teste', 'senha123').then((response) => {
+      const userId = response.body._id;
+
       cy.request({
         method: 'DELETE',
-        url: `usuarios/${id}`,
-      }).then(response =>{
-        expect(response.body.message).to.equal('Registro excluído com sucesso')
-        expect(response.status).to.equal(200)
+        url: `/usuarios/${userId}`,
+        failOnStatusCode: false
+      }).then((deleteResponse) => {
+        expect(deleteResponse.status).to.eq(200);
+        expect(deleteResponse.body.message).to.eq('Registro excluído com sucesso');
       })
     })
   });
