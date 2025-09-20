@@ -4,7 +4,7 @@ pipeline {
   stages {
       stage('Clonar o repositorio') {
         steps {
-          git branch: 'main', url: 'https://github.com/gipilon/teste-e2e-ebac.git'
+          git branch: 'main', url: 'https://github.com/gipilon/teste-api-ebac.git'
         }
       }
       stage('Instalar dependencias') {
