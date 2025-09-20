@@ -12,6 +12,12 @@ pipeline {
           sh 'npm install'
         }
       }
+      stage('Iniciar Servidor da API') {
+            steps {
+                sh 'npm start &'
+                sh 'sleep 10'
+            }
+        }
       stage('Executar Testes') {
         steps {
           sh 'NO_COLOR=1 npm run cy:run'
